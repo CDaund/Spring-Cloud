@@ -2,9 +2,11 @@ package com.chaitanya.roomservices;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,11 +23,17 @@ public class RoomController {
     private RoomRepository roomRepository;
 
     @RequestMapping(method = RequestMethod.GET)
-//    @ApiOperation(value="Get All Rooms", notes="Gets all rooms in the system", nickname="getRooms")
+    //@ApiOperation(value="Get All Rooms", notes="Gets all rooms in the system", nickname="getRooms")
     public List<Room> findAll(@RequestParam(name="roomNumber", required = false)String roomNumber){
         if(StringUtils.isNotEmpty(roomNumber)){
             return Collections.singletonList(this.roomRepository.findByRoomNumber(roomNumber));
         }
         return (List<Room>) this.roomRepository.findAll();
+    }
+
+    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+   // @ApiOperation(value="Get Room", notes="Gets a single room based on its unique id", nickname = "getRoom")
+    public Optional<Room> findOne(@PathVariable("id")long id){
+        return this.roomRepository.findById(id);
     }
 }

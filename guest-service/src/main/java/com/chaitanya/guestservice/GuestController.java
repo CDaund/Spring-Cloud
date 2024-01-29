@@ -3,6 +3,7 @@ package com.chaitanya.guestservice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -17,15 +18,14 @@ public class GuestController {
 		this.repository = repository;
 	}
 	
-	@GetMapping
-	//@RequestMapping(method= RequestMethod.GET)
+
+	@RequestMapping(method= RequestMethod.GET)
     //@ApiOperation(value="Get All Guests", notes="Gets all guests in the system", nickname="getGuests")
 	public Iterable<Guest> getAllGuests(){
 		return this.repository.findAll();
 	}
 	
-	//@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	@GetMapping("/{id}")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Guest getGuest(@PathVariable("id")long id) {
 		return this.repository.findById(id).get();
 	}	
